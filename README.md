@@ -4,7 +4,7 @@ This is a simple AI chatbot implemented with Google Gemini API using the 1.5 Fla
 
 ## Running the application
 
-The application can be tested on my [homepage](https://salonenteemu.fi/projects/ai-chatbot) as it is one of the projects there.
+The application can be tested on my [homepage](https://salonenteemu.fi/projects/ai-chatbot-app) as it is one of the projects there.
 
 A Gemini API key can be retrieved from [Google AI Studio](https://aistudio.google.com/app/apikey) if you want to test this version of the application by setting the key as an environment variable. **Remember to not give any personal information to the chatbot.**
 
