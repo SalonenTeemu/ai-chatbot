@@ -1,5 +1,77 @@
 import { useState, useRef, useEffect } from "react";
 
+/**
+ * Format the response text from the AI to display in the chat.
+ *
+ * @param {string} text the response text from the AI
+ * @returns the formatted response as an array of JSX elements
+ */
+const formatResponse = (text) => {
+  const lines = text.split("\n");
+  const formatted = [];
+  let inList = false;
+
+  lines.forEach((line, index) => {
+    const trimmedLine = line.trim();
+
+    if (!trimmedLine) return;
+
+    if (trimmedLine.startsWith("* ")) {
+      if (!inList) {
+        formatted.push(
+          <ul key={`list-start-${index}`} className="list-disc"></ul>
+        );
+        inList = true;
+      }
+
+      const listItem = trimmedLine.slice(2).trim();
+      formatted.push(
+        <li key={index} className="mb-1 ml-4">
+          {listItem
+            .split(/(\*\*.*?\*\*)/)
+            .map((part, i) =>
+              part.startsWith("**") && part.endsWith("**") ? (
+                <strong key={i}>{part.replace(/\*\*/g, "")}</strong>
+              ) : (
+                part
+              )
+            )}
+        </li>
+      );
+    } else {
+      if (inList) {
+        formatted.push(<ul key={`list-end-${index}`} />);
+        inList = false;
+      }
+
+      formatted.push(
+        <p key={index} className="mb-2">
+          {trimmedLine
+            .split(/(\*\*.*?\*\*)/)
+            .map((part, i) =>
+              part.startsWith("**") && part.endsWith("**") ? (
+                <strong key={i}>{part.replace(/\*\*/g, "")}</strong>
+              ) : (
+                part
+              )
+            )}
+        </p>
+      );
+    }
+  });
+
+  if (inList) {
+    formatted.push(<ul key="list-end-final" />);
+  }
+
+  return formatted;
+};
+
+/**
+ * The main application component.
+ *
+ * @returns the main application component
+ */
 function App() {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState([]);
@@ -77,7 +149,7 @@ function App() {
                   msg.sender === "user" ? "text-lime-500" : "text-slate-50"
                 }`}>
                 <strong>{msg.sender === "user" ? "You" : "Gemini"}:</strong>
-                <p>{msg.text}</p>
+                <div>{formatResponse(msg.text)}</div>
               </div>
             ))}
           </div>
@@ -89,7 +161,7 @@ function App() {
             placeholder="Message Gemini..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            rows="4"
+            rows="2"
             onKeyDown={handleKeyPress}
             disabled={loading}
           />
@@ -100,6 +172,9 @@ function App() {
             {loading ? "Generating..." : "Send"}
           </button>
         </form>
+        <p className="mt-4 text-center text-sm text-slate-400">
+          Do not give any personal information.
+        </p>
       </div>
     </div>
   );
