@@ -84,6 +84,8 @@ function App() {
 
     const userMessage = prompt;
 
+    setPrompt("");
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { sender: "user", text: userMessage },
@@ -173,7 +175,7 @@ function App() {
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-slate-400">
-          Do not give any personal information.
+          Avoid sharing personal information with the chatbot.
         </p>
       </div>
     </div>
