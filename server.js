@@ -9,8 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY); // Set up the Google Generative AI client with the API key from environment variables
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // Update to a newer supported model if needed
 
 app.post("/api/chat", async (req, res) => {
   const prompt = req.body.prompt;
