@@ -1,5 +1,5 @@
 const express = require("express");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -9,21 +9,32 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY); // Set up the Google Generative AI client with the API key from environment variables
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // Update to a newer supported model if needed
+// Initialize the Google Generative AI client with the API key from environment variables
+const ai = new GoogleGenAI({
+  apiKey: process.env.GENERATIVE_AI_API_KEY,
+});
+
+// Define the model to use for generating content. Update this to a newer supported model if needed.
+const MODEL = "gemini-3.6-flash";
 
 app.post("/api/chat", async (req, res) => {
-  const prompt = req.body.prompt;
+  const { prompt } = req.body;
 
-  if (!prompt) {
-    return res.status(400).json({ error: "Prompt is required" });
+  if (!prompt || typeof prompt !== "string") {
+    return res.status(400).json({
+      error: "A valid prompt is required",
+    });
   }
 
   try {
-    const result = await model.generateContent(prompt);
-    res.json({ response: result.response.text() });
+    const response = await ai.models.generateContent({
+      model: MODEL,
+      contents: prompt,
+    });
+
+    res.json({ response: response.text });
   } catch (error) {
-    console.error(error);
+    console.error("Gemini API error:", error);
     res.status(500).send("Error generating content");
   }
 });

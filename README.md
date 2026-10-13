@@ -1,6 +1,6 @@
 # ai-chatbot
 
-This is a simple AI chatbot implemented with Google Gemini API using the Flash model. You can type messages and it will answer them. It was interesting to test how AI can be used in web development. **Remember to not share any personal information with the chatbot.**
+This is a simple AI chatbot implemented with Google Gemini API using the Flash model. You can type messages and the bot will answer them. **Remember to not share any personal information with the chatbot.**
 
 ## Running the application
 

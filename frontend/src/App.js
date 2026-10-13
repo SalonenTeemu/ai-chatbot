@@ -19,7 +19,7 @@ const formatResponse = (text) => {
     if (trimmedLine.startsWith("* ")) {
       if (!inList) {
         formatted.push(
-          <ul key={`list-start-${index}`} className="list-disc"></ul>
+          <ul key={`list-start-${index}`} className="list-disc"></ul>,
         );
         inList = true;
       }
@@ -34,9 +34,9 @@ const formatResponse = (text) => {
                 <strong key={i}>{part.replace(/\*\*/g, "")}</strong>
               ) : (
                 part
-              )
+              ),
             )}
-        </li>
+        </li>,
       );
     } else {
       if (inList) {
@@ -53,9 +53,9 @@ const formatResponse = (text) => {
                 <strong key={i}>{part.replace(/\*\*/g, "")}</strong>
               ) : (
                 part
-              )
+              ),
             )}
-        </p>
+        </p>,
       );
     }
   });
