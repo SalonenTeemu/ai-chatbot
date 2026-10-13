@@ -15,7 +15,7 @@ const ai = new GoogleGenAI({
 });
 
 // Define the model to use for generating content. Update this to a newer supported model if needed.
-const MODEL = "gemini-3.6-flash";
+const MODEL = "gemini-3.8-flash";
 
 app.post("/api/chat", async (req, res) => {
   const { prompt } = req.body;
